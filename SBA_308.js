@@ -76,9 +76,36 @@ const LearnerSubmissions = [
     }
 ];
 
-// course_id in AssignmentGroup matches the id in CourseInfo. Throw an error if they do not match.
-function validateCourse(AssignmentGroup, CourseInfo){ 
-    if (AssignmentGroup.course_id !== CourseInfo.id) {
-        throw new Error("AssignmentGroup does not match the specified course.")
+
+function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions) {
+ /* course_id in AssignmentGroup matches the id in CourseInfo. 
+ Throw an error if they do not match.*/
+    function validateCourse(AssignmentGroup, CourseInfo){ 
+        if (AssignmentGroup.course_id !== CourseInfo.id) {
+            throw new Error("AssignmentGroup does not match the specified course.")
+        }
     }
+  /*Prepare the due dates and points possible for each assignment. 
+  due_at is a valid date and points_possible is a positive number. 
+  Handle potential errors gracefully using try/catch.*/
+    function prepareAssignments(AssignmentGroup) {
+        const assignmentDueDates = {}   //Object to store due dates 
+        const pointsPossible = {}       //Object to store points possible 
+    
+        AssignmentGroup.assignments.forEach(assignment => {
+            const dueDate = new Date(assignment.due_at)
+            if (isNaN(dueDate)) {
+                throw new Error(`Invalid due date for assignment ID ${assignment.id}`)
+            }
+    
+            if (typeof assignment.points_possible == String || assignment.points_possible == Number && assignment.points_possible <= 0) {
+                throw new Error(`Invalid points_possible for assignment ID ${assignment.id}`)
+            }
+            assignmentDueDates[assignment.id] = dueDate
+            pointsPossible[assignment.id] = assignment.points_possible
+        })
+        return {assignmentDueDates, pointsPossible}
+    }
+
 }
+
