@@ -59,6 +59,7 @@ Handle errors gracefully using try/catch blocks.*/
 
 
 function getLearnerData(courseInfo, assignmentGroup, learnerSubmissions) {
+    //check if assignment group course_id  belongs to the courseInfo_id. Throw an error if there is a mismatch.
     if (assignmentGroup.course_id !== courseInfo.id) {
         throw new Error("Assignment course_id does not match  the courseInfo_id.")
     }
