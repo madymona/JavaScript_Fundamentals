@@ -79,6 +79,7 @@ function getLearnerData(courseInfo, assignmentGroup, learnerSubmissions) {
             //Check if the submission_id is for the current assignment
             if (submission.assignment_id === assignment.id) {
                 //create learner's data if it does not already exist
+                /*If the condition is true ( the learner's data doesn't already exist in learnerData so its false), a new object is created and assigned to learnerData[submission.learner_id].*/
                 if (!learnerData[submission.learner_id]) {
                     learnerData[submission.learner_id] = { id: submission.learner_id, avg: 0, totalPoints: 0, totalPossible: 0 };
                 }
